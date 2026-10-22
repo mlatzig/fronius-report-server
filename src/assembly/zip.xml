@@ -1,0 +1,63 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+
+	<!-- Distribution of the report server, one zip for every platform: the
+	     executable jar, start.cmd for Windows and everything needed to run it
+	     as a systemd service on Linux. Line endings are fixed per file, so the
+	     zip is the same whether it is built on Windows or on Linux. -->
+
+	<id>dist</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<files>
+		<file>
+			<source>${project.build.directory}/${project.build.finalName}.jar</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
+		<file>
+			<source>src/dist/start</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0755</fileMode>
+			<lineEnding>unix</lineEnding>
+		</file>
+		<file>
+			<source>src/dist/start.cmd</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0644</fileMode>
+			<lineEnding>dos</lineEnding>
+		</file>
+		<file>
+			<source>src/dist/install.sh</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0755</fileMode>
+			<lineEnding>unix</lineEnding>
+		</file>
+		<file>
+			<source>src/dist/fronius_report_server.service</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0644</fileMode>
+			<lineEnding>unix</lineEnding>
+		</file>
+		<file>
+			<source>src/dist/local.properties.example</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0644</fileMode>
+			<lineEnding>unix</lineEnding>
+		</file>
+		<file>
+			<source>README.md</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
+		<file>
+			<source>LICENSE</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
+	</files>
+</assembly>

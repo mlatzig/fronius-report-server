@@ -1,0 +1,7 @@
+#!/bin/sh
+# Starts the report server. Called by the systemd service, which sets the
+# working directory - local.properties next to the jar is picked up
+# automatically and overrides the packaged configuration.
+# exec: java replaces this shell, so it becomes the main process of the
+# service - stop and restart then signal the jvm directly
+exec "${JAVA:-java}" -Xmx256m -jar FroniusReportServer.jar

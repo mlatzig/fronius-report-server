@@ -1,0 +1,25 @@
+# Template of the systemd unit. install.sh replaces the @...@ placeholders
+# and installs the result to /etc/systemd/system.
+
+[Unit]
+Description=Fronius Report Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=@USER@
+
+# local.properties of this installation is read from here
+WorkingDirectory=@DIR@
+
+# start is a shell script calling the jar
+Environment=JAVA=@JAVA@
+ExecStart=@DIR@/start
+
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

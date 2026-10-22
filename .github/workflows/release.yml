@@ -1,0 +1,61 @@
+# Every version tag v* (e.g. v1.0.0) builds and tests the server and attaches
+# the distribution zip to a draft release; the draft is checked and published
+# by hand. The zip runs on every platform (start.cmd for Windows, install.sh
+# and the systemd unit for Linux), so one Linux runner builds it.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    name: Build and draft release
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+      - name: Set up Eclipse Temurin
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Build, test and package
+        run: mvn -B clean package
+      - name: Check the version and name the zip
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          pom_version=$(mvn -B -q help:evaluate -Dexpression=project.version -DforceStdout)
+          if [ "$version" != "$pom_version" ]; then
+            echo "Tag $TAG does not match the version $pom_version in pom.xml."
+            exit 1
+          fi
+          cp target/FroniusReportServer.zip "FroniusReportServer-$version.zip"
+      - name: Attach it to the draft release of the tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" "FroniusReportServer-$version.zip" --clobber
+          else
+            gh release create "$TAG" "FroniusReportServer-$version.zip" --draft --verify-tag \
+              --title "FroniusReportServer $version" \
+              --notes "FroniusReportServer $version for Windows and Linux: unpack, copy local.properties.example to local.properties and set fronius.csv-dir; then run start.cmd (Windows) or install.sh (Linux service). Requires Java 21. See README.md."
+          fi

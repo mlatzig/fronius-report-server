@@ -1,0 +1,22 @@
+# ###########################################################################
+# Fronius Report Server - settings of this installation
+#
+# Copy this file to local.properties in the working directory of the server
+# (the project directory when started from the IDE, the deployment
+# directory when run as a service). Every key listed here overrides the
+# packaged default, every key not listed keeps it. See the README for all
+# keys.
+# ###########################################################################
+
+# Root directory holding one sub directory per year with the CSV reports.
+# On Windows use forward slashes: C:/path/to/csv
+fronius.csv-dir=/path/to/csv
+
+# Name of the pv plant, shown as tooltip of the branding.
+#fronius.plant-name=Fronius Symo GEN24 8.0 Plus
+
+# Language of the user interface: en or de.
+#spring.web.locale=de
+
+# HTTP port.
+#server.port=8084

@@ -1,0 +1,9 @@
+# shell scripts and the unit template must keep Unix line endings
+src/dist/start text eol=lf
+src/dist/*.sh text eol=lf
+src/dist/*.service text eol=lf
+# message bundles and properties are ISO-8859-1, git must not touch them
+*.properties -text
+*.png binary
+# Windows batch files need Windows line endings
+*.cmd text eol=crlf

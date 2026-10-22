@@ -1,0 +1,360 @@
+/* ==========================================================================
+   Fronius Report Server - stylesheet
+   The look follows the Solar.web presentation.
+   ========================================================================== */
+
+:root {
+	--bg: #f4f6f8;
+	--panel: #ffffff;
+	--text: #333b45;
+	--text-mute: #7a8794;
+	--line: #e2e6ea;
+	--production: #ffb300;
+	--consumption: #d32f2f;
+	--self-consumption: #f2a100;
+	--feed-in: #7cb342;
+	--grid-supply: #78909c;
+	--accent: #0b6ea8;
+	--radius: 10px;
+	--shadow: 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* --- app bar: branding and selector share one slim line ------------------ */
+
+.appbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 16px;
+	padding: 5px 24px;
+	background: #fff;
+	border-bottom: 1px solid var(--line);
+}
+
+.brand {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-mute);
+	letter-spacing: .2px;
+	white-space: nowrap;
+}
+
+.brand-mark {
+	display: inline-block;
+	background: var(--production);
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	border-radius: 4px;
+	padding: 0 5px;
+	margin-right: 5px;
+	vertical-align: 1px;
+}
+
+/* --- selector (thin client) --------------------------------------------- */
+
+.selector {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-left: auto;
+}
+
+.segment {
+	display: flex;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: #fff;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+.segment input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.segment label {
+	padding: 3px 13px;
+	font-size: 12px;
+	cursor: pointer;
+	user-select: none;
+	border-right: 1px solid var(--line);
+}
+
+.segment label:last-of-type {
+	border-right: 0;
+}
+
+.segment label:hover {
+	color: var(--accent);
+}
+
+.segment input[type="radio"]:checked + label {
+	background: var(--accent);
+	color: #fff;
+}
+
+.segment input[type="radio"]:focus-visible + label {
+	outline: 2px solid var(--accent);
+	outline-offset: -2px;
+}
+
+.select {
+	font: inherit;
+	font-size: 12px;
+	color: var(--text);
+	background: #fff;
+	border: 1px solid var(--line);
+	border-radius: 6px;
+	padding: 2px 6px;
+	min-width: 84px;
+}
+
+.select:disabled {
+	opacity: .4;
+}
+
+.btn {
+	font: inherit;
+	font-size: 12px;
+	color: #fff;
+	background: var(--accent);
+	border: 1px solid var(--accent);
+	border-radius: 6px;
+	padding: 3px 13px;
+	cursor: pointer;
+}
+
+/* --- content ------------------------------------------------------------ */
+
+.content {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 12px 24px 8px 24px;
+	transition: opacity .12s;
+}
+
+.content.is-loading {
+	opacity: .5;
+}
+
+.page-title {
+	margin: 4px 0 2px 0;
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.page-hint {
+	margin: 0 0 18px 0;
+	color: var(--text-mute);
+	font-size: 13px;
+}
+
+/* --- key figures -------------------------------------------------------- */
+
+/* 136px keeps all seven figures on one line inside the 1200px container:
+   7 * 136 + 6 * 10 = 1012px of the 1152px available. */
+.cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.card {
+	background: var(--panel);
+	border: 1px solid var(--line);
+	border-top: 3px solid var(--line);
+	border-radius: 8px;
+	box-shadow: var(--shadow);
+	padding: 9px 11px;
+}
+
+.card-label {
+	color: var(--text-mute);
+	font-size: 10px;
+	line-height: 1.3;
+	text-transform: uppercase;
+	letter-spacing: .3px;
+}
+
+.card-value {
+	font-size: 19px;
+	font-weight: 600;
+	margin-top: 1px;
+	white-space: nowrap;
+}
+
+.card-unit {
+	font-size: 11px;
+	font-weight: 400;
+	color: var(--text-mute);
+}
+
+.card[data-key="production"] { border-top-color: var(--production); }
+.card[data-key="consumption"] { border-top-color: var(--consumption); }
+.card[data-key="self-consumption"] { border-top-color: var(--self-consumption); }
+.card[data-key="feed-in"] { border-top-color: var(--feed-in); }
+.card[data-key="grid-supply"] { border-top-color: var(--grid-supply); }
+.card[data-key="autarky"] { border-top-color: var(--feed-in); }
+.card[data-key="self-consumption-rate"] { border-top-color: var(--self-consumption); }
+
+.meter {
+	height: 4px;
+	border-radius: 2px;
+	background: var(--line);
+	margin-top: 6px;
+	overflow: hidden;
+}
+
+.meter-fill {
+	height: 100%;
+	border-radius: 3px;
+	background: var(--accent);
+}
+
+.card[data-key="autarky"] .meter-fill { background: var(--feed-in); }
+.card[data-key="self-consumption-rate"] .meter-fill { background: var(--self-consumption); }
+
+/* --- charts ------------------------------------------------------------- */
+
+.chart-panel {
+	background: var(--panel);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+	padding: 14px 16px 18px 16px;
+	margin-bottom: 18px;
+}
+
+.panel-title {
+	margin: 0 0 10px 0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+/* An html image map does not scale with a css resized image - the tool tip
+   areas would drift away from their bars. The chart is therefore shown at its
+   natural size and the frame scrolls if the window is narrower. */
+.chart-frame {
+	position: relative;
+	overflow-x: auto;
+}
+
+.chart {
+	display: block;
+	margin: 0 auto;
+}
+
+.chart-frame area {
+	cursor: default;
+}
+
+/* Own tool tip, shown by the thin client without the delay of the native one.
+   It lists every value of the pointed at category and marks the one under the
+   pointer. Without javascript the title attributes of the image map take over. */
+.chart-tooltip {
+	position: absolute;
+	z-index: 5;
+	pointer-events: none;
+	padding: 6px 9px 5px 9px;
+	border-radius: 6px;
+	background: rgba(51, 59, 69, .96);
+	color: #fff;
+	font-size: 12px;
+	line-height: 1.5;
+	white-space: nowrap;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+}
+
+.chart-tooltip-title {
+	font-weight: 600;
+	margin-bottom: 3px;
+	padding-bottom: 3px;
+	border-bottom: 1px solid rgba(255, 255, 255, .18);
+}
+
+.chart-tooltip-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 18px;
+	color: #c7cdd4;
+}
+
+/* the colored dot repeats the color of the segment in the chart */
+.chart-tooltip-row .chart-tooltip-label::before {
+	content: "";
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 2px;
+	margin-right: 6px;
+	background: currentColor;
+}
+
+.chart-tooltip-row[data-key="self-consumption"] .chart-tooltip-label::before { background: var(--self-consumption); }
+.chart-tooltip-row[data-key="grid-supply"] .chart-tooltip-label::before { background: var(--grid-supply); }
+.chart-tooltip-row[data-key="feed-in"] .chart-tooltip-label::before { background: var(--feed-in); }
+.chart-tooltip-row[data-key="consumption"] .chart-tooltip-label::before { background: var(--consumption); }
+.chart-tooltip-row[data-key="production"] .chart-tooltip-label::before { background: var(--production); }
+
+/* the sums are separated from the segments of the bar */
+.chart-tooltip-row[data-key="production"] {
+	margin-top: 3px;
+	padding-top: 3px;
+	border-top: 1px solid rgba(255, 255, 255, .18);
+}
+
+.chart-tooltip-row.is-current {
+	color: #fff;
+	font-weight: 600;
+}
+
+.chart-tooltip-value {
+	font-variant-numeric: tabular-nums;
+}
+
+
+/* --- sample data banner, shown while the CSV directory holds no report ----- */
+
+.demo-banner {
+	padding: 8px 24px;
+	background: #fff8e1;
+	border-bottom: 1px solid var(--production);
+	color: #5d4037;
+}
+
+.demo-banner strong {
+	margin-right: 8px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}

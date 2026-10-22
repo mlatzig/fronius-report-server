@@ -1,0 +1,11 @@
+# Maven's build folder
+/target/
+# IDE settings
+/bin/
+/.idea/
+*.iml
+/.classpath
+/.project
+/.settings/
+# settings of an installation, never publish
+local.properties
